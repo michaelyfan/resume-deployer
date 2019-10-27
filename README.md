@@ -1,3 +1,16 @@
+## Resume Deployer
+
+A tool for deploying one's resumes to various platforms (ex. LinkedIn, CareerBuzz (Symplicity), Handshake) with a single click. 
+
+Started at HackGT 6 (2019).
+
+#### TODOS
+* set up actual linting, testing, and pipelines
+* authentication checks (more elegant process for the user than expecting to have a sign-in available for every app)
+* deployment and scaling thoughts/discussion. Using a Desktop app (Electron?) rather than a webapp.
+
+----------------
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

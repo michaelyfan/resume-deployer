@@ -1,22 +1,74 @@
-.App {
-  text-align: center;
+html, body {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
+#app-wrapper {
+  width: 100vw;
   min-height: 100vh;
+  text-align: center;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #09d3ac;
+#app-wrapper-sub {
+
 }
+
+#check-items {
+  text-align: left;
+  padding-left: auto;
+  margin-bottom: 3rem;
+  font-size: 32px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.check-item-wrapper {
+  cursor: pointer;
+}
+
+.check-item-circle {
+  margin-right: 10px;
+  margin-top: 8px;
+  border-radius: 10%;
+  height: 28px;
+  width: 28px;
+  background-color: rgb(240,240,240);  
+}
+
+.check-item-circle.selected {
+  background-color: #90ee90;  
+}
+
+.check-item-wrapper {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: horizontal;
+}
+
+#upload-button {
+  margin-bottom: 15px;
+}
+
+#upload-inform-text {
+  margin-top: 5px;
+  font-size: 14px;
+  color: rgb(150,150,150);
+  min-height: 2rem;
+}
+
+.butn {
+  background-color: #90ee90;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 10px;
+  border-style: none;
+  cursor: pointer;
+}
+
+.butn-primary {
+  background-color: #94e5ff;
+}
+

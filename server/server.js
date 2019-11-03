@@ -19,8 +19,11 @@ app.post('/api/runAll', upload.array('files', 10), (req, res) => {
   runAll(resume, config).then((errors) => {
     // // delete multer file
     // fs.removeSync(UPLOAD_PATH);
-    
-    res.status(200).send(errors);
+    if (!errors || (Array.isArray(errors) && errors.length <= 0)) {
+      res.sendStatus(200);
+    } else {
+      res.status(200).send(errors);
+    }
   });
 });
 

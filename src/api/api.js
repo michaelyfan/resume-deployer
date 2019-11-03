@@ -11,6 +11,9 @@ const uploadAll = (resume, config) => {
     body: formData
   };
   return fetch('/api/runAll', options).then((res) => {
+    console.log(res);
+    console.log('here', 'BODY');
+    console.log(res.body);
     return res.body;
   });
 };

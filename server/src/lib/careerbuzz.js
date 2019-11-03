@@ -2,6 +2,8 @@ const { By, until } = require('selenium-webdriver');
 
 const { TIMEOUT } = require('../config');
 
+require('dotenv').config();
+
 async function run(driver, resumePath) {
   try {
     console.log('Starting CareerBuzz...');
@@ -9,9 +11,17 @@ async function run(driver, resumePath) {
 
     // login authentication if it shows up
     let locator = By.name('submit');
-    const mustLogin = driver.findElements(locator).length > 0;
-    if (mustLogin) {
+    try {
+      // error if element does not show up within 2 seconds
+      await driver.wait(until.elementLocated(locator), 2000);
+
+      // enter user and pass
+      await driver.findElement(By.id('username')).sendKeys(process.env.GT_USERNAME || '');
+      await driver.findElement(By.id('password')).sendKeys(process.env.GT_PASSWORD || '');
+      // press enter
       await driver.findElement(locator).click();
+    } catch (e) {
+      console.log('CareerBuzz: no login detected.');
     }
 
     // upload resume
@@ -20,7 +30,7 @@ async function run(driver, resumePath) {
     await driver.findElement(locator).sendKeys(resumePath);
 
     // submit this change
-    locator = By.css('[aria-label="Edit about"]');
+    locator = By.css('.buttonbar-bottom > [name=dnf_opt_submit]');
     await driver.wait(until.elementLocated(locator), TIMEOUT);
     await driver.findElement(locator).click();
 

@@ -2,6 +2,8 @@ const { By, until } = require('selenium-webdriver');
 
 const { TIMEOUT } = require('../config');
 
+require('dotenv').config();
+
 function sleep(ms){
   return new Promise(resolve=>{
     setTimeout(resolve, ms);
@@ -16,33 +18,36 @@ async function run(driver, resumePath) {
     // login if needed
     // login authentication if it shows up
     let locator = By.className('sso-button');
-    let mustLogin = driver.findElements(locator).length > 0;
-    if (mustLogin) {
+    try {
+      await driver.wait(until.elementLocated(locator), 2500);
       await driver.findElement(locator).click();
+    } catch (e) {
+      // assume that login authentication since the button didn't show up
+      console.log('Handshake: no Handshake login page detected.');
     }
 
-    await sleep(1000);
-
-    // login authentication if it shows up, again
+    // login if needed for a second time (this time, GT's auth page)
     locator = By.name('submit');
-    mustLogin = driver.findElements(locator).length > 0;
-    if (mustLogin) {
+    try {
+      // error if element does not show up within 2 seconds
+      await driver.wait(until.elementLocated(locator), 2000);
+
+      console.log('Handshake: login detected');
+      // enter user and pass
+      await driver.findElement(By.id('username')).sendKeys(process.env.GT_USERNAME || '');
+      await driver.findElement(By.id('password')).sendKeys(process.env.GT_PASSWORD || '');
+      // press enter
       await driver.findElement(locator).click();
+    } catch (e) {
+      console.log('Handshake: no GT login detected.');
     }
 
-    // // bring the resume in focus
-    // locator = By.css('[data-tooltip=MichaelFan_Resume.pdf][aria-label=MichaelFan_Resume.pdf]');
-    // await driver.wait(until.elementLocated(locator), TIMEOUT);
-    // await driver.findElement(locator).click();
-
-    // // click elipses to bring up menu
-    // locator = By.css('[aria-label="More actions"]');
-    // await driver.wait(until.elementLocated(locator), TIMEOUT);
-    // await driver.findElement(locator).click();
-
+    // send resume to file upload
     locator = By.id('document_document');
     await driver.wait(until.elementLocated(locator), TIMEOUT);
     await driver.findElement(locator).sendKeys(resumePath);
+
+    await sleep(500);
 
     // submit this change
     locator = By.name('commit');
